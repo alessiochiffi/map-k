@@ -1,26 +1,19 @@
 import React from 'react';
+import './places.css'
 
-const Place = (props) => {
-  // props.map(props => {
-  //   return (
-  //     <div key={props.key}>
-  //       <p>{props.name}</p>
-  //     </div>
-  //   )
-  // });
+const Places = (props) => {
+  console.log(props);
+  const results = [props]
 
-  const testArray = props;
-
-  let currentState;
-
-  currentState = testArray.map((value) => value)
-
-  console.log('this is ', testArray)
-
-  console.log(currentState);
   return (
-    <div>{currentState}</div>
+    results.map(props => {
+      return (
+        <div key={props.place.id}>
+          <p>{props.place.name}</p>
+        </div>
+      )
+    })
   )
 }
 
-export default Place;
+export default Places;

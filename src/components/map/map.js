@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import geolocator from 'geolocator';
 import axios from 'axios';
+import Places from '../places/places'
 import Loader from '../loader/loader';
 import './map.css'
 
@@ -15,7 +16,8 @@ class SimpleMap extends Component {
         lat: null,
         lng: null
       },
-      isLoading: true
+      isLoading: true,
+      places: []
     }
 
     this.showCurrentLocation = this.showCurrentLocation.bind(this);
@@ -24,7 +26,7 @@ class SimpleMap extends Component {
   showCurrentLocation = () => {
     let options = {
         enableHighAccuracy: false,
-        timeout: 10000,
+        timeout: 100000,
         maximumWait: 100,     // max wait time for desired accuracy
         maximumAge: 0,          // disable cache
         desiredAccuracy: 30,    // meters
@@ -63,10 +65,8 @@ class SimpleMap extends Component {
 
   renderProducts() {
     return this.state.places.map(place => {
-        return (
-            <div key={place.id}>
-                <p>{place.name}</p>
-            </div>
+      return (
+          <Places place={place} />
         );
     })
   }
@@ -93,11 +93,8 @@ class SimpleMap extends Component {
     };
 
 
-    const { isLoading, currentLatLng, hasResults } = this.state;
+    const { isLoading, currentLatLng } = this.state;
 
-    if (hasResults) {
-      return(this.renderProducts())
-    }
 
     if (isLoading) {
       return (
@@ -105,18 +102,28 @@ class SimpleMap extends Component {
       )
     } else {
       return (
-        <div className="map-layout">
-          <div style={{ height: '80vh', width: '50wv' }}>
-            <GoogleMapReact
-              bootstrapURLKeys={{ key: GOOGLE_API_KEY }}
-              defaultCenter={currentLatLng}
-              defaultZoom={14}
-              onChange={this._onChange}
-            >
-            </GoogleMapReact>
+        <div className="app-layout">
+          <div className="map-layout">
+            <div style={{ height: '40vh', width: '50wv' }}>
+              <GoogleMapReact
+                bootstrapURLKeys={{ key: GOOGLE_API_KEY }}
+                defaultCenter={currentLatLng}
+                defaultZoom={14}
+                onChange={this._onChange}
+              >
+                <div className="marker"
+                  lat={currentLatLng.lat}
+                  lng={currentLatLng.lng}
+                />
+              </GoogleMapReact>
+            </div>
+            <div className="searchPlaces">
+              <button className="btn btn-primary" onClick={searchPlaces}>Search</button>
+            </div>
+            <span>{currentLatLng.lat}-{currentLatLng.lng}</span>
           </div>
-          <div className="searchPlaces">
-            <button onClick={searchPlaces}>Search</button>
+          <div className="results-panel container">
+            {this.renderProducts() ? this.renderProducts() : null}
           </div>
         </div>
       );

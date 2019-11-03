@@ -1,3 +1,35 @@
 .map-layout {
   width: 50vw;
 }
+
+.app-layout {
+  display: flex;
+}
+
+.results-panel {
+  width: 50vw;
+  background: #f6f6f6;
+  height: 100vh;
+  overflow: scroll;
+}
+
+.searchPlaces .btn {
+  width: 100%;
+}
+
+.marker {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: aqua;
+}
+
+@media (max-width: 600px) {
+  .app-layout {
+    flex-direction: column;
+  }
+  .map-layout, .results-panel {
+    width: 100%;
+    height: 50vh;
+  }
+}
