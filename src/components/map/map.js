@@ -109,6 +109,7 @@ class SimpleMap extends Component {
                 bootstrapURLKeys={{ key: GOOGLE_API_KEY }}
                 defaultCenter={currentLatLng}
                 defaultZoom={14}
+                gestureHandling="greedy"
                 onChange={this._onChange}
               >
                 <div className="marker"
