@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import geolocator from 'geolocator';
 import axios from 'axios';
-import Places from '../places/places'
+import Place from '../places/places'
 import Loader from '../loader/loader';
 import Marker from './marker';
 import './map.css';
@@ -70,7 +70,7 @@ class SimpleMap extends Component {
   renderPlaces() {
     return this.state.places.map(place => {
       return (
-          <Places key={place.id} place={place} />
+          <Place key={place.id} place={place} />
         );
     })
   }
@@ -85,7 +85,7 @@ class SimpleMap extends Component {
       const lat = this.state.currentLatLng.lat;
       const lng = this.state.currentLatLng.lng;
 
-      axios.get(`https://api.foursquare.com/v2/venues/search?client_id=${fsid}&client_secret=${fscs}&v=20180323&intent=browse&limit=50&radius=5000&near=${lat},${lng}`)
+      axios.get(`https://api.foursquare.com/v2/venues/search?client_id=${fsid}&client_secret=${fscs}&v=20180323&intent=browse&limit=150&radius=5000&near=${lat},${lng}`)
         .then((response) => {
           this.setState({
             places: response.data.response.venues,
@@ -111,7 +111,7 @@ class SimpleMap extends Component {
       return (
         <div className="app-layout">
           <div className="map-layout">
-            <div style={{ height: '80vh', width: '50wv' }}>
+            <div style={{ height: '50vh', width: '50wv' }}>
               <GoogleMapReact
                 bootstrapURLKeys={{ key: GOOGLE_API_KEY }}
                 center={currentLatLng}
