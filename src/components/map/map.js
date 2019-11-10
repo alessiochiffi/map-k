@@ -85,7 +85,7 @@ class SimpleMap extends Component {
       const lat = this.state.currentLatLng.lat;
       const lng = this.state.currentLatLng.lng;
 
-      axios.get(`https://api.foursquare.com/v2/venues/search?client_id=${fsid}&client_secret=${fscs}&v=20180323&intent=browse&limit=150&radius=5000&near=${lat},${lng}`)
+      axios.get(`https://api.foursquare.com/v2/venues/search?client_id=${fsid}&client_secret=${fscs}&v=20180323&intent=browse&limit=50&radius=1000&near=${lat},${lng}`)
         .then((response) => {
           this.setState({
             places: response.data.response.venues,
