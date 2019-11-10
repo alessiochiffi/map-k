@@ -4,7 +4,8 @@ import geolocator from 'geolocator';
 import axios from 'axios';
 import Places from '../places/places'
 import Loader from '../loader/loader';
-import './map.css'
+import Marker from './marker';
+import './map.css';
 
 const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY
 
@@ -17,6 +18,7 @@ class SimpleMap extends Component {
         lng: null
       },
       isLoading: true,
+      initiated: false,
       places: []
     }
 
@@ -35,13 +37,15 @@ class SimpleMap extends Component {
 
     geolocator.locate(options,  (err, location) => {
         if (err) return console.log(err);
-        if (location) {
+        if (!err && this.state.initiated === false) {
           this.setState({
             currentLatLng: {
               lat: location.coords.latitude,
               lng: location.coords.longitude
             },
-            isLoading: false
+            address: location,
+            initiated: true,
+            isLoading: false,
           })
           return;
         }
@@ -63,15 +67,16 @@ class SimpleMap extends Component {
     })
   }
 
-  renderProducts() {
+  renderPlaces() {
     return this.state.places.map(place => {
       return (
-          <Places place={place} />
+          <Places key={place.id} place={place} />
         );
     })
   }
 
   render() {
+    const { isLoading, currentLatLng } = this.state;
     this.showCurrentLocation();
 
     const searchPlaces = () => {
@@ -93,29 +98,29 @@ class SimpleMap extends Component {
     };
 
 
-    const { isLoading, currentLatLng } = this.state;
-
+    const apiIsLoaded = (locations) => {
+      console.log(locations);
+    }
 
     if (isLoading) {
       return (
         <Loader />
       )
     } else {
+
       return (
         <div className="app-layout">
           <div className="map-layout">
-            <div style={{ height: '40vh', width: '50wv' }}>
+            <div style={{ height: '80vh', width: '50wv' }}>
               <GoogleMapReact
                 bootstrapURLKeys={{ key: GOOGLE_API_KEY }}
-                defaultCenter={currentLatLng}
+                center={currentLatLng}
                 defaultZoom={14}
-                gestureHandling="greedy"
                 onChange={this._onChange}
+                yesIWantToUseGoogleMapApiInternals
+                onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps, this.state.places)}
               >
-                <div className="marker"
-                  lat={currentLatLng.lat}
-                  lng={currentLatLng.lng}
-                />
+                <Marker position={currentLatLng} />
               </GoogleMapReact>
             </div>
             <div className="searchPlaces">
@@ -124,7 +129,7 @@ class SimpleMap extends Component {
             <span>{currentLatLng.lat}-{currentLatLng.lng}</span>
           </div>
           <div className="results-panel container">
-            {this.renderProducts() ? this.renderProducts() : null}
+            {this.renderPlaces() ? this.renderPlaces() : null}
           </div>
         </div>
       );

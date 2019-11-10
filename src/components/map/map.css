@@ -18,11 +18,25 @@
 }
 
 .marker {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
+  width: 1rem;
   background: aqua;
+  height: 1rem;
+  border-radius: 50%;
+  animation: ripple 0.7s linear infinite;
 }
+
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(aqua, 0.3), 0 0 0 1em rgba(aqua, 0.3),
+      0 0 0 3em rgba(aqua, 0.3), 0 0 0 5em rgba(aqua, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 0 1em rgba(aqua, 0.3), 0 0 0 3em rgba(aqua, 0.3),
+      0 0 0 5em rgba(aqua, 0.3), 0 0 0 8em rgba(aqua, 0);
+  }
+}
+
 
 @media (max-width: 600px) {
   .app-layout {

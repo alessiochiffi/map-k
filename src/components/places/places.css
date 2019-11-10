@@ -1,0 +1,16 @@
+.card {
+  border: 0;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 0.25rem 1rem rgba(48, 55, 66, .15);
+  margin-bottom: 1.5rem;
+  padding: 1rem .5rem;
+}
+
+.card h6 {
+  margin: 0;
+}
+
+.card:first-of-type {
+  margin-top: 1rem;
+}
