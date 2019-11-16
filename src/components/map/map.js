@@ -9,7 +9,7 @@ import './map.css';
 
 const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY
 
-class SimpleMap extends Component {
+class Map extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -27,8 +27,8 @@ class SimpleMap extends Component {
 
   showCurrentLocation = () => {
     let options = {
-        enableHighAccuracy: false,
-        timeout: 100000,
+        enableHighAccuracy: true,
+        timeout: 200,
         maximumWait: 100,     // max wait time for desired accuracy
         maximumAge: 0,          // disable cache
         desiredAccuracy: 30,    // meters
@@ -85,7 +85,7 @@ class SimpleMap extends Component {
       const lat = this.state.currentLatLng.lat;
       const lng = this.state.currentLatLng.lng;
 
-      axios.get(`https://api.foursquare.com/v2/venues/search?client_id=${fsid}&client_secret=${fscs}&v=20180323&intent=browse&limit=50&radius=1000&near=${lat},${lng}`)
+      axios.get(`https://api.foursquare.com/v2/venues/search?client_id=${fsid}&client_secret=${fscs}&v=20180323&intent=browse&limit=50000&radius=1000&near=${lat},${lng}`)
         .then((response) => {
           this.setState({
             places: response.data.response.venues,
@@ -137,4 +137,4 @@ class SimpleMap extends Component {
   }
 }
 
-export default SimpleMap;
+export default Map;
