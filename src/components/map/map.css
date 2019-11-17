@@ -47,3 +47,11 @@
     height: 60vh;
   }
 }
+
+.map__coords {
+  display: block;
+  font-size: 11px;
+  margin: .5rem auto;
+  width: 90%;
+  text-align: center;
+}
