@@ -102,7 +102,7 @@ class Map extends Component {
   }
 
   showWeather() {
-    axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${this.state.currentLatLng.lat}&lon=${this.state.currentLatLng.lng}&units=metric&appid=3fb9669ae49b25530b94f992b51a6343`)
+    axios.get(`https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?lat=${this.state.currentLatLng.lat}&lon=${this.state.currentLatLng.lng}&units=metric&appid=3fb9669ae49b25530b94f992b51a6343`)
     .then((response) => {
       this.setState({
         weather: response.data,
